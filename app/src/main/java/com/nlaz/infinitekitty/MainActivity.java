@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -34,7 +32,6 @@ public class MainActivity extends ActionBarActivity {
         for (int i=0; i < 10;++i)
              data.add("Kitten " + i);
 
-//        adapter = new ArrayAdapter<String>(this, R.layout.text_item, data);
         adapter = new KittenAdapter(this, R.layout.kitten_item, data);
         listview.setAdapter(adapter);
 
@@ -48,30 +45,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public abstract class InfiniteScroller implements AbsListView.OnScrollListener{
         private int bufferItemCount = 10;
@@ -114,13 +87,11 @@ public class MainActivity extends ActionBarActivity {
     public class KittenAdapter extends ArrayAdapter<String>{
 
         private LayoutInflater mInflater;
-        private ArrayList<String> objects;
         private Context context;
 
         public KittenAdapter(Context context, int resId, ArrayList<String> objects){
             super(context,resId, objects);
             this.mInflater = LayoutInflater.from(context);
-            this.objects = objects;
             this.context = context;
         }
 
@@ -128,7 +99,6 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
-
             ViewHolder viewHolder;
 
             if (view == null){
