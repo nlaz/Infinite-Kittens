@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.squareup.picasso.Picasso;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
-    private ListView listview;
+    private GridView gridView;
     private KittenAdapter adapter;
     private ArrayList<String> data;
 
@@ -27,32 +27,32 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listview = (ListView) findViewById(R.id.listview);
+        gridView = (GridView) findViewById(R.id.gridview);
         data = new ArrayList<String>();
-        for (int i=0; i < 10;++i)
-             data.add("Kitten " + i);
+        for (int i = 0; i < 10; ++i)
+            data.add("Kitten " + i);
 
         adapter = new KittenAdapter(this, R.layout.kitten_item, data);
-        listview.setAdapter(adapter);
+        gridView.setAdapter(adapter);
 
-        listview.setOnScrollListener(new InfiniteScroller(5) {
+        gridView.setOnScrollListener(new InfiniteScroller(5) {
             @Override
             public void loadMore(int page, int totalItemsCount) {
-                for (int i = 0; i < 5;++i){
-                    data.add("Kitten "+ i);
+                for (int i = 0; i < 5; ++i) {
+                    data.add("Kitten " + i);
                 }
                 adapter.notifyDataSetChanged();
             }
         });
     }
 
-    public abstract class InfiniteScroller implements AbsListView.OnScrollListener{
+    public abstract class InfiniteScroller implements AbsListView.OnScrollListener {
         private int bufferItemCount = 10;
         private int currentPage = 0;
         private int itemCount = 0;
         private boolean isLoading = true;
 
-        public InfiniteScroller(int bufferCount){
+        public InfiniteScroller(int bufferCount) {
             this.bufferItemCount = bufferCount;
         }
 
@@ -68,7 +68,8 @@ public class MainActivity extends ActionBarActivity {
             if (totalItemCount < itemCount) {
                 this.itemCount = totalItemCount;
                 if (totalItemCount == 0) {
-                    this.isLoading = true; }
+                    this.isLoading = true;
+                }
             }
 
             if (isLoading && (totalItemCount > itemCount)) {
@@ -77,20 +78,20 @@ public class MainActivity extends ActionBarActivity {
                 currentPage++;
             }
 
-            if (!isLoading && (totalItemCount - visibleItemCount)<=(firstVisibleItem + bufferItemCount)) {
+            if (!isLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + bufferItemCount)) {
                 loadMore(currentPage + 1, totalItemCount);
                 isLoading = true;
             }
         }
     }
 
-    public class KittenAdapter extends ArrayAdapter<String>{
+    public class KittenAdapter extends ArrayAdapter<String> {
 
         private LayoutInflater mInflater;
         private Context context;
 
-        public KittenAdapter(Context context, int resId, ArrayList<String> objects){
-            super(context,resId, objects);
+        public KittenAdapter(Context context, int resId, ArrayList<String> objects) {
+            super(context, resId, objects);
             this.mInflater = LayoutInflater.from(context);
             this.context = context;
         }
@@ -101,11 +102,11 @@ public class MainActivity extends ActionBarActivity {
             View view = convertView;
             ViewHolder viewHolder;
 
-            if (view == null){
+            if (view == null) {
                 view = mInflater.inflate(R.layout.kitten_item, null);
                 viewHolder = new ViewHolder(view);
                 view.setTag(viewHolder);
-            }else{
+            } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
 
@@ -114,11 +115,11 @@ public class MainActivity extends ActionBarActivity {
             return view;
         }
 
-        public class ViewHolder{
+        public class ViewHolder {
 
             public ImageView imageView;
 
-            public ViewHolder(View view){
+            public ViewHolder(View view) {
                 imageView = (ImageView) view.findViewById(R.id.kitten_image);
             }
         }
