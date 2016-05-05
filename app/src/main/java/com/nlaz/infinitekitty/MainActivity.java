@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
 
         gridView = (GridView) findViewById(R.id.gridview);
         data = new ArrayList<String>();
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 20; ++i)
             data.add("Kitten " + i);
 
         adapter = new KittenAdapter(this, R.layout.kitten_item, data);
@@ -110,7 +110,15 @@ public class MainActivity extends ActionBarActivity {
                 viewHolder = (ViewHolder) view.getTag();
             }
 
-            Picasso.with(context).load("http://placekitten.com/g/500/200").into(viewHolder.imageView);
+            int height = (int) (Math.random() * 200 + 100);
+            int width = (int) (Math.random() * 200 + 100);
+            String url = "http://placekitten.com/g/" + width + "/" + height;
+
+            Picasso.with(context)
+                    .load(url)
+                    .fit()
+                    .centerCrop()
+                    .into(viewHolder.imageView);
 
             return view;
         }
